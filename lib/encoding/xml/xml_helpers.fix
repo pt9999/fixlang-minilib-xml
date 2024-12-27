@@ -34,19 +34,19 @@ unescape_special = |str| (
         if c != '&' {
             continue $ (output.push_back(c), i + 1)
         };
-        if str.substring(i, i + 5) == "&amp;" {
+        if str.get_sub(i, i + 5) == "&amp;" {
             continue $ (output.push_back('&'), i + 5)
         };
-        if str.substring(i, i + 4) == "&lt;" {
+        if str.get_sub(i, i + 4) == "&lt;" {
             continue $ (output.push_back('<'), i + 4)
         };
-        if str.substring(i, i + 4) == "&gt;" {
+        if str.get_sub(i, i + 4) == "&gt;" {
             continue $ (output.push_back('>'), i + 4)
         };
-        if str.substring(i, i + 6) == "&quot;" {
+        if str.get_sub(i, i + 6) == "&quot;" {
             continue $ (output.push_back("\"".get_bytes.@(0)), i + 6)
         };
-        if str.substring(i, i + 6) == "&apos;" {
+        if str.get_sub(i, i + 6) == "&apos;" {
             continue $ (output.push_back('\''), i + 6)
         };
         let opt = _match_char_reference(input, i);
