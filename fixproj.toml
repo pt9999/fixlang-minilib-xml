@@ -5,7 +5,7 @@ authors = ["pt9999"]
 license = "MIT"
 
 [build]
-opt_level = "separated"
+opt_level = "basic"
 files = [
     "lib/encoding/xml.fix",
     "lib/encoding/xml/xml_helpers.fix",
@@ -13,7 +13,7 @@ files = [
 ]
 
 [build.test]
-opt_level = "separated"
+opt_level = "basic"
 files = [
     "tests/test.fix",
     "tests/encoding/xml/xml_helpers_test.fix",
