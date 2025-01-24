@@ -106,12 +106,12 @@ Content of Elements
 
 [5]   	Name	   ::=   	NameStartChar (NameChar)*
 
-### `_parse_name_char : Minilib.Text.SimpleParser::Parser Std::U8`
+### `_parse_name_char : Minilib.Text.SimpleParser::Parser Minilib.Text.SimpleParser::Char`
 
 [4a]   	NameChar	   ::=   	NameStartChar | "-" | "." | [0-9] |
                                   #xB7 | [#x0300-#x036F] | [#x203F-#x2040]
 
-### `_parse_name_start_char : Minilib.Text.SimpleParser::Parser Std::U8`
+### `_parse_name_start_char : Minilib.Text.SimpleParser::Parser Minilib.Text.SimpleParser::Char`
 
 [4]   	NameStartChar	   ::=   	":" | [A-Z] | "_" | [a-z] | [#xC0-#xD6] |
              [#xD8-#xF6] | [#xF8-#x2FF] | [#x370-#x37D] | [#x37F-#x1FFF] |
@@ -153,12 +153,12 @@ White Space
 
 [23]   	XMLDecl	   ::=   	'<?xml' VersionInfo EncodingDecl? SDDecl? S? '?>'
 
-### `_whitespace : Minilib.Text.SimpleParser::Parser Std::U8`
+### `_whitespace : Minilib.Text.SimpleParser::Parser Minilib.Text.SimpleParser::Char`
 
-### `parse_document_from_string : Std::String -> Std::Result Std::String Minilib.Encoding.Xml::XmlDocument`
+### `parse_document_from_string : Std::String -> Std::Result Std::ErrMsg Minilib.Encoding.Xml::XmlDocument`
 
 Reads an XML document from a string.
 
-### `parse_element_from_string : Std::String -> Std::Result Std::String Minilib.Encoding.Xml::XmlElement`
+### `parse_element_from_string : Std::String -> Std::Result Std::ErrMsg Minilib.Encoding.Xml::XmlElement`
 
 Reads an XML element from a string.
