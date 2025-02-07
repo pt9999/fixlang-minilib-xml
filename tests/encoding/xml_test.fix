@@ -112,7 +112,7 @@ test_xmlnode_eq = (
     ];
     let n = table.get_size;
     Iterator::range(0, n).fold_m(
-        (), |_, i|
+        (), |i, _|
         eval *assert_equal("eq" + i.to_string, table.@(i), table.@(i));
         eval *assert_not_equal("neq" + i.to_string, table.@(i), table.@((i+1) % n));
         pure()
