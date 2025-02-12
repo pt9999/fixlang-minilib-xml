@@ -224,7 +224,7 @@ namespace XmlElement {
     // from the element. If the specified attribute does not exist, this function does nothing.
     remove_attribute: String -> XmlElement -> XmlElement;
     remove_attribute = |name, element| (
-        element.mod_attributes(to_iter >> filter(|attr| attr.@name != name) >> to_array)
+        element.mod_attributes(Array::to_iter >> filter(|attr| attr.@name != name) >> to_array)
     );
 
     // `attr` is synonym for `set_attribute`.
@@ -263,8 +263,8 @@ namespace XmlElement {
     // `element.concat_text_nodes` concats adjuscent text nodes.
     concat_text_nodes: XmlElement -> XmlElement;
     concat_text_nodes = |element| (
-        let concat_or_push_back: Array XmlNode -> XmlNode -> Array XmlNode =
-            |children, child| (
+        let concat_or_push_back: XmlNode -> Array XmlNode -> Array XmlNode =
+            |child, children| (
                 if children.is_empty {
                     children.push_back(child)
                 };
@@ -305,7 +305,7 @@ impl XmlElement: ToString {
         let child_sep = "";
         let output = output + child_sep;
         let output = el.@children.to_iter.fold(
-            output, |output, node|
+            output, |node, output|
             output + node.to_string + child_sep
         );
         let output = output + "</" + el.@tag_name + ">";

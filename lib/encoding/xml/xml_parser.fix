@@ -40,7 +40,7 @@ _parse_document = do {
     let element = *_parse_element;
     let doc = doc.set_document_element(element);
     let epilog = *repeat(_parse_misc);
-    let doc = epilog.to_iter.fold(doc, |doc, node| doc.add_to_epilog(node));
+    let doc = epilog.to_iter.fold(doc, |node, doc| doc.add_to_epilog(node));
     let _ = *match_end_of_stream;
     pure $ doc
 };
@@ -246,7 +246,7 @@ _parse_prolog = do {
     let prolog = *repeat(_parse_misc);
     let doc = XmlDocument::empty;
     let doc = doc.set_xml_decl(xml_decl);
-    let doc = prolog.to_iter.fold(doc, |doc, node| doc.add_to_prolog(node));
+    let doc = prolog.to_iter.fold(doc, |node, doc| doc.add_to_prolog(node));
     // TODO: support doctypedecl
     pure $ doc
 };
