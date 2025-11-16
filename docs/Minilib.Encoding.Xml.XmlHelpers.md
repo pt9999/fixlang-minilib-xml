@@ -1,16 +1,12 @@
 # Minilib.Encoding.Xml.XmlHelpers
 
-Defined in minilib-xml@0.5.1
+Defined in minilib-xml@0.5.2
 
 XML helpers, such as escaping/unescaping special characters.
 
 ## Values
 
 ### namespace Minilib.Encoding.Xml.XmlHelpers
-
-#### _match_char_reference
-
-Type: `Std::Array Std::U8 -> Std::I64 -> Std::Option (Std::U32, Std::I64)`
 
 #### escape_special
 

@@ -1,6 +1,6 @@
 # Minilib.Encoding.Xml
 
-Defined in minilib-xml@0.5.1
+Defined in minilib-xml@0.5.2
 
 Simple XML Model.
 
@@ -32,12 +32,6 @@ eg. `&amp;` -> `&`, `&lt;` -> `<`, `&gt;` -> `>`, `&quot;` -> `\"`, `&#039;` -> 
 NOTE: Other character references is also converted.
 
 ### namespace Minilib.Encoding.Xml::XmlAttribute
-
-#### _sort_by_name
-
-Type: `Std::Array Minilib.Encoding.Xml::XmlAttribute -> Std::Array Minilib.Encoding.Xml::XmlAttribute`
-
-`attributes._sort_by_name` sorts an array of attributes by the name.
 
 #### make
 
