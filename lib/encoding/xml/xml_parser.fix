@@ -27,7 +27,7 @@ parse_document_from_string: String -> Result ErrMsg XmlDocument;
 parse_document_from_string = |str| (
     let parser = do {
         let doc = *_parse_document;
-        let _ = *match_end_of_stream;
+        match_end_of_stream;;
         pure $ doc
     };
     parser.run_parser_str(str).map(@0)
@@ -41,7 +41,7 @@ _parse_document = do {
     let doc = doc.set_document_element(element);
     let epilog = *repeat(_parse_misc);
     let doc = epilog.to_iter.fold(doc, |node, doc| doc.add_to_epilog(node));
-    let _ = *match_end_of_stream;
+    match_end_of_stream;;
     pure $ doc
 };
 
@@ -123,7 +123,7 @@ _parse_att_value = do {
             _parse_reference
         )
     };
-    let _ = *repeat(inner_quote);
+    repeat(inner_quote);;
     let end_stream = *get_stream;
     let end_quote = *match_char(start_quote).or_error("Missing end quote");
     let content = start_stream.read_string_between(end_stream);
@@ -138,12 +138,12 @@ _parse_char_data: Parser String;
 _parse_char_data = do {
     let match_not_end_of_cdata = _negative_lookahead("]]>");
     let inner = do {
-        let _ = *match_not_end_of_cdata;
-        let _ = *match_char_class(|c| c != '<' && c != '&');
+        match_not_end_of_cdata;;
+        match_char_class(|c| c != '<' && c != '&');;
         pure()
     };
     let start_stream = *get_stream;
-    let _ = *repeat(inner);
+    repeat(inner);;
     let end_stream = *get_stream;
     let content = start_stream.read_string_between(end_stream);
     pure $ content
@@ -170,14 +170,14 @@ _parse_comment = do {
     let hyphen = match_any_char.filter(|c| c == '-');
     let not_hyphen = match_any_char.filter(|c| c != '-');
     let inner_comment = not_hyphen.or_else(do {
-        let _ = *hyphen;
+        hyphen;;
         not_hyphen
     });
-    let _ = *match_str("<!--");
+    match_str("<!--");;
     let start_stream = *get_stream;
-    let _ = *repeat(inner_comment);
+    repeat(inner_comment);;
     let end_stream = *get_stream;
-    let _ = *match_str("-->").or_error("Missing end of comment");
+    match_str("-->").or_error("Missing end of comment");;
 
     let content = start_stream.read_string_between(end_stream);
     pure $ comment_node $ XmlComment::make(content)
@@ -191,23 +191,23 @@ _parse_pi: Parser XmlNode;
 _parse_pi = do {
     let match_not_end_mark = _negative_lookahead("?>");
     let inner_content = do {
-        let _ = *match_not_end_mark;
-        let _ = *match_any_char;
+        match_not_end_mark;;
+        match_any_char;;
         pure()
     };
-    let _ = *match_str("<?");
+    match_str("<?");;
     let start_stream = *get_stream;
     let pitarget = *_parse_name;
     if pitarget.to_lower == "xml" {
         not_match
     };
-    let _ = *do {
-        let _ = *one_or_more(_whitespace);
-        let _ = *repeat(inner_content);
+    do {
+        one_or_more(_whitespace);;
+        repeat(inner_content);;
         pure()
-    }.if_exists;
+    }.if_exists;;
     let end_stream = *get_stream;
-    let _ = *match_str("?>").or_error("Missing '?>'");
+    match_str("?>").or_error("Missing '?>'");;
     let content = start_stream.read_string_between(end_stream);
     pure $ processing_instruction $ XmlProcessingInstruction::make(content)
 };
@@ -222,15 +222,15 @@ _parse_cdsect: Parser XmlNode;
 _parse_cdsect = do {
     let match_not_end_mark = _negative_lookahead("]]>");
     let inner_content = do {
-        let _ = *match_not_end_mark;
-        let _ = *match_any_char;
+        match_not_end_mark;;
+        match_any_char;;
         pure()
     };
-    let _ = *match_str("<![CDATA[");
+    match_str("<![CDATA[");;
     let start_stream = *get_stream;
-    let _ = *repeat(inner_content);
+    repeat(inner_content);;
     let end_stream = *get_stream;
-    let _ = *match_str("]]>").or_error("Missing ']]>'");
+    match_str("]]>").or_error("Missing ']]>'");;
     let content = start_stream.read_string_between(end_stream);
     pure $ cdata_section $ XmlCDATASection::make(content)
 };
@@ -258,16 +258,16 @@ _parse_xml_declaration = do {
     let not_question = match_char_class(|c| c != '?');
     let not_right_angle = match_char_class(|c| c != '>');
     let inner_content = not_question.or_else(do {
-        let _ = *question;
+        question;;
         not_right_angle
     });
-    let _ = *match_str("<?");
-    let _ = *match_str("xml");
+    match_str("<?");;
+    match_str("xml");;
     let version = *_parse_version_info;
     let encoding = *_parse_encoding_decl.if_exists;
     let standalone = *_parse_sd_decl.if_exists;
-    let _ = *zero_or_more(_whitespace);
-    let _ = *match_str("?>").or_error("Missing end of xml declaration");
+    zero_or_more(_whitespace);;
+    match_str("?>").or_error("Missing end of xml declaration");;
     pure $ XmlDeclaration {
         version: version,
         encoding: encoding,
@@ -278,21 +278,21 @@ _parse_xml_declaration = do {
 // [24]   	VersionInfo	   ::=   	S 'version' Eq ("'" VersionNum "'" | '"' VersionNum '"')
 _parse_version_info: Parser String;
 _parse_version_info = do {
-    let _ = *one_or_more(_whitespace);
-    let _ = *match_str("version");
-    let _ = *_parse_eq;
+    one_or_more(_whitespace);;
+    match_str("version");;
+    _parse_eq;;
     let quote = *match_char_class(|c| c == _SingleQuote || c == _DoubleQuote);
     let version_num = *match_str_class(|c| is_digit(c) || c == '.');
-    let _ = *match_char(quote);
+    match_char(quote);;
     pure $ version_num
 };
 
 // [25]   	Eq	   ::=   	S? '=' S?
 _parse_eq: Parser ();
 _parse_eq = do {
-    let _ = *zero_or_more(_whitespace);
-    let _ = *match_char('=');
-    let _ = *zero_or_more(_whitespace);
+    zero_or_more(_whitespace);;
+    match_char('=');;
+    zero_or_more(_whitespace);;
     pure()
 };
 
@@ -312,13 +312,13 @@ _parse_misc = do {
 // [32]   	SDDecl	   ::=   	S 'standalone' Eq (("'" ('yes' | 'no') "'") | ('"' ('yes' | 'no') '"'))
 _parse_sd_decl: Parser String;
 _parse_sd_decl = do {
-    let _ = *one_or_more(_whitespace);
-    let _ = *match_str("standalone");
-    let _ = *_parse_eq;
+    one_or_more(_whitespace);;
+    match_str("standalone");;
+    _parse_eq;;
     let quote = *match_char_class(|c| c == _SingleQuote || c == _DoubleQuote);
     let match_str_unforget = |str| match_str(str).map(|_| str);
     let yesno = *match_str_unforget("yes").or_else(match_str_unforget("no"));
-    let _ = *match_char(quote);
+    match_char(quote);;
     pure $ yesno
 };
 
@@ -331,7 +331,7 @@ parse_element_from_string: String -> Result ErrMsg XmlElement;
 parse_element_from_string = |str| (
     let parser = do {
         let elem = *_parse_element;
-        let _ = *match_end_of_stream;
+        match_end_of_stream;;
         pure $ elem
     };
     parser.run_parser_str(str).map(@0)
@@ -352,17 +352,17 @@ _parse_element = do {
 // [40]   	STag	   ::=   	'<' Name (S Attribute)* S? '>'
 _parse_empty_elem_tag_or_stag: Parser (Bool, XmlElement);
 _parse_empty_elem_tag_or_stag = do {
-    let _ = *match_char('<');
+    match_char('<');;
     let name = *_parse_name;
     let attrs = *repeat(
         do {
-            let _ = *one_or_more(_whitespace);
+            one_or_more(_whitespace);;
             _parse_attribute
         }
     );
-    let _ = *zero_or_more(_whitespace);
+    zero_or_more(_whitespace);;
     let slash = *match_char('/').if_exists;
-    let _ = *match_char('>').or_error("Missing '>'");
+    match_char('>').or_error("Missing '>'");;
     let elem = XmlElement::make(name).set_attributes(attrs);
     pure $ (slash.is_some, elem)
 };
@@ -380,12 +380,12 @@ _parse_attribute = do {
 // [42]   	ETag	   ::=   	'</' Name S? '>'
 _parse_etag: XmlElement -> Parser XmlElement;
 _parse_etag = |elem| do {
-    let _ = *match_char('<');
-    let _ = *match_char('/');
+    match_char('<');;
+    match_char('/');;
     let name = *_parse_name;
     if name != elem.@tag_name { error_parser $ "Tag name mismatch" };
-    let _ = *zero_or_more(_whitespace);
-    let _ = *match_char('>').or_error("Missing '>'");
+    zero_or_more(_whitespace);;
+    match_char('>').or_error("Missing '>'");;
     pure $ elem
 };
 
@@ -423,13 +423,13 @@ _parse_content = |elem| do {
 //                              | '&#x' [0-9a-fA-F]+ ';'
 _parse_char_ref: Parser ();
 _parse_char_ref = do {
-    let _ = *match_char('&');
-    let _ = *match_char('#');
+    match_char('&');;
+    match_char('#');;
     let x = *match_char('x').if_exists;
-    let _ = *one_or_more(match_char_class(
+    one_or_more(match_char_class(
         if x.is_some { is_xdigit } else { is_digit }
-    ));
-    let _ = *match_char(';');
+    ));;
+    match_char(';');;
     pure()
 };
 
@@ -445,7 +445,7 @@ _parse_reference = do {
 _parse_reference_as_text_node: Parser XmlNode;
 _parse_reference_as_text_node = do {
     let start_stream = *get_stream;
-    let _ = *_parse_reference;
+    _parse_reference;;
     let end_stream = *get_stream;
     let content = start_stream.read_string_between(end_stream);
     let content = unescape_special(content);
@@ -455,9 +455,9 @@ _parse_reference_as_text_node = do {
 // [68]   	EntityRef	   ::=   	'&' Name ';'
 _parse_entity_ref: Parser ();
 _parse_entity_ref = do {
-    let _ = *match_char('&');
-    let _ = *_parse_name;
-    let _ = *match_char(';');
+    match_char('&');;
+    _parse_name;;
+    match_char(';');;
     pure()
 };
 
@@ -466,12 +466,12 @@ _parse_entity_ref = do {
 // [80]   	EncodingDecl	   ::=   	S 'encoding' Eq ('"' EncName '"' | "'" EncName "'" )
 _parse_encoding_decl: Parser String;
 _parse_encoding_decl = do {
-    let _ = *one_or_more(_whitespace);
-    let _ = *match_str("encoding");
-    let _ = *_parse_eq;
+    one_or_more(_whitespace);;
+    match_str("encoding");;
+    _parse_eq;;
     let quote = *match_char_class(|c| c == _SingleQuote || c == _DoubleQuote);
     let enc_name = *_parse_enc_name;
-    let _ = *match_char(quote);
+    match_char(quote);;
     pure $ enc_name
 };
 

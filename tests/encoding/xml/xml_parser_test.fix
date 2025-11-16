@@ -22,7 +22,7 @@ make_table_test_with_parser = |test_name, params, parser| (
     |(input, expect)|
         let res = do {
             let x = *parser;
-            eval *match_end_of_stream;
+            match_end_of_stream;;
             pure $ x
         }.run_parser_str(input);
         let res = res.map(@0).trim_err;
