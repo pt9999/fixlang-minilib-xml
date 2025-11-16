@@ -3,6 +3,7 @@ module XmlTest;
 import Minilib.Encoding.Xml;
 import Minilib.Testing.UnitTest;
 import Minilib.Text.StringEx;
+import Minilib.Trait.Traversable;
 
 //=======================================================================
 // tests for XmlDocument
@@ -111,8 +112,7 @@ test_xmlnode_eq = (
         document_node $ XmlDocument::make(XmlElement::make("doc2"))
     ];
     let n = table.get_size;
-    Iterator::range(0, n).fold_m(
-        (), |i, _|
+    range(0, n).foreach_m(|i|
         assert_equal("eq" + i.to_string, table.@(i), table.@(i));;
         assert_not_equal("neq" + i.to_string, table.@(i), table.@((i+1) % n));;
         pure()
