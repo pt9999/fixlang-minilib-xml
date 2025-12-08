@@ -1,6 +1,6 @@
 # Minilib.Encoding.Xml.XmlParser
 
-Defined in minilib-xml@0.5.2
+Defined in minilib-xml@0.5.3
 
 Simple XML 1.1 Parser.
 
