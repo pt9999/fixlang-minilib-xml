@@ -1,6 +1,6 @@
 [general]
 name = "minilib-xml"
-version = "0.5.3"
+version = "0.5.4"
 authors = ["pt9999"]
 license = "MIT"
 
