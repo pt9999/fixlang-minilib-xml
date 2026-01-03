@@ -38,9 +38,9 @@ rev = "7af8a5c115e7437f94dcb4353807c03d816856f6"
 
 [[dependencies]]
 name = "minilib-text"
-version = "0.5.5"
-path = ".fixlang/deps/minilib-text_0.5.5"
+version = "0.6.0"
+path = ".fixlang/deps/minilib-text_0.6.0"
 
 [dependencies.git]
 repo = "https://github.com/pt9999/fixlang-minilib-text.git"
-rev = "7c83c54bd391004da967ff29899e22b63c20c25c"
+rev = "6181e80f3dcbdae80d4663bf9fd8d31200004d6f"
