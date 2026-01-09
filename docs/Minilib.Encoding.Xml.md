@@ -1,6 +1,6 @@
 # Minilib.Encoding.Xml
 
-Defined in minilib-xml@0.5.5
+Defined in minilib-xml@0.5.6
 
 Simple XML Model.
 
