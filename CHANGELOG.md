@@ -1,5 +1,6 @@
 ## 0.6.1
 ### Changed
+- Depends on minilib-text@0.9.0.
 - Utilized minilib-common@0.12.3.
 
 ## 0.6.0
