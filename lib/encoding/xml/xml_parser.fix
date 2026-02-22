@@ -51,7 +51,7 @@ _parse_document = do {
 // [3]   	S	   ::=   	(#x20 | #x9 | #xD | #xA)+
 _parse_s: Parser String;
 _parse_s = do {
-    one_or_more(_whitespace).map(_unsafe_to_string)
+    one_or_more(_whitespace).map(StringEx::from_array)
 };
 
 _whitespace: Parser Char;
@@ -102,7 +102,7 @@ _parse_name: Parser String;
 _parse_name = do {
     let start_char = *_parse_name_start_char;
     let tail_chars = *repeat(_parse_name_char);
-    pure $ [start_char].append(tail_chars)._unsafe_to_string
+    pure $ [start_char].append(tail_chars).StringEx::from_array
 };
 
 // Literals
@@ -482,5 +482,5 @@ _parse_enc_name = do {
     let tail_chars = *repeat(match_char_class(|c|
         is_alnum(c) || c == '.' || c == '_' || c == '-'
     ));
-    pure $ [head_char].append(tail_chars)._unsafe_to_string
+    pure $ [head_char].append(tail_chars).StringEx::from_array
 };

@@ -57,7 +57,7 @@ unescape_special = |str| (
         };
         continue $ (output.push_back(c), i + 1)
     );
-    output._unsafe_to_string
+    output.StringEx::from_array
 );
 
 _match_char_reference: Array U8 -> I64 -> Option (U32, I64);
@@ -80,7 +80,7 @@ _match_char_reference = |input, i| (
     );
     let end = i;
     if end == start { none() };
-    let digit_str = input.get_sub(start, end)._unsafe_to_string;
+    let digit_str = input.get_sub(start, end).StringEx::from_array;
     if !(i < n && input.@(i) == ';') { none() };
     let i = i + 1;
     let codepoint: Result ErrMsg U32 = if hex_digit {

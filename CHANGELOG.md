@@ -1,3 +1,7 @@
+## 0.6.1
+### Changed
+- Utilized minilib-common@0.12.3.
+
 ## 0.6.0
 ### Changed
 - fixproj.toml:
