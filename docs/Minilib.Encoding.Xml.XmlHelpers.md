@@ -1,6 +1,6 @@
 # Minilib.Encoding.Xml.XmlHelpers
 
-Defined in minilib-xml@0.6.0
+Defined in minilib-xml@0.6.1
 
 XML helpers, such as escaping/unescaping special characters.
 
