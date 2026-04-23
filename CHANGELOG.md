@@ -1,3 +1,7 @@
+## 0.6.2
+### Changed
+- Removed indirect dependencies.
+
 ## 0.6.1
 ### Changed
 - Depends on minilib-text@0.9.0.
