@@ -1,5 +1,6 @@
 ## 0.6.4
 ### Changed
+- Upgraded to minilib-binary@0.6.4, minilib-text@0.9.4.
 - Modified some code to remove the deprecation warnings.
 
 ## 0.6.2
