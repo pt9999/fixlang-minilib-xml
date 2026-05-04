@@ -24,10 +24,10 @@ escape_special = |str| (
 unescape_special: String -> String;
 unescape_special = |str| (
     let input = str.get_bytes.pop_back;
-    let output: Array U8 = Array::empty(input.get_size);
+    let output: Array U8 = Array::empty(input.@size);
     let output = loop(
         (output, 0), |(output, i)|
-        if i >= input.get_size {
+        if i >= input.@size {
             break $ output
         };
         let c = input.@(i);
@@ -62,7 +62,7 @@ unescape_special = |str| (
 
 _match_char_reference: Array U8 -> I64 -> Option (U32, I64);
 _match_char_reference = |input, i| (
-    let n = input.get_size;
+    let n = input.@size;
     if !(i < n && input.@(i) == '&') { none() };
     let i = i + 1;
     if !(i < n && input.@(i) == '#') { none() };

@@ -301,7 +301,7 @@ impl XmlElement: ToString {
             output + "/>"
         };
         let output = output + ">";
-        //let child_sep = if el.@children.get_size >= 1 { "\n" } else { "" };
+        //let child_sep = if el.@children.@size >= 1 { "\n" } else { "" };
         let child_sep = "";
         let output = output + child_sep;
         let output = el.@children.to_iter.fold(

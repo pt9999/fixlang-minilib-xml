@@ -1,3 +1,7 @@
+## 0.6.4
+### Changed
+- Modified some code to remove the deprecation warnings.
+
 ## 0.6.2
 ### Changed
 - Removed indirect dependencies.

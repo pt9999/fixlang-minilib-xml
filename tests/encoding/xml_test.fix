@@ -111,7 +111,7 @@ test_xmlnode_eq = (
         document_node $ XmlDocument::make(XmlElement::make("doc1")),
         document_node $ XmlDocument::make(XmlElement::make("doc2"))
     ];
-    let n = table.get_size;
+    let n = table.@size;
     range(0, n).foreach_m(|i|
         assert_equal("eq" + i.to_string, table.@(i), table.@(i));;
         assert_not_equal("neq" + i.to_string, table.@(i), table.@((i+1) % n));;
