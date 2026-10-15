@@ -1,6 +1,6 @@
 # Minilib.Encoding.Xml.XmlHelpers
 
-Defined in minilib-xml@0.7.1
+Defined in minilib-xml@0.8.0
 
 XML helpers, such as escaping/unescaping special characters.
 
@@ -13,14 +13,14 @@ XML helpers, such as escaping/unescaping special characters.
 Type: `Std::String -> Std::String`
 
 Escapes XML special characters.
-eg. `&` -> `&amp;`, `<` -> `&lt;`, `>` -> `&gt;`, `\"` -> `&quot;`, `'` -> `&#039;`
+eg. `&` -> `&amp;`, `<` -> `&lt;`, `>` -> `&gt;`, `"` -> `&quot;`, `'` -> `&#039;`
 
 #### unescape_special
 
 Type: `Std::String -> Std::String`
 
 Unescapes XML special characters.
-eg. `&amp;` -> `&`, `&lt;` -> `<`, `&gt;` -> `>`, `&quot;` -> `\"`, `&#039;` -> `'`.
+eg. `&amp;` -> `&`, `&lt;` -> `<`, `&gt;` -> `>`, `&quot;` -> `"`, `&#039;` -> `'`.
 NOTE: Other character references is also converted.
 
 ## Types and aliases
