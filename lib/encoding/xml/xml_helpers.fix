@@ -13,7 +13,7 @@ import Std::{
 };
 
 // Escapes XML special characters.
-// eg. `&` -> `&amp;`, `<` -> `&lt;`, `>` -> `&gt;`, `\"` -> `&quot;`, `'` -> `&#039;`
+// eg. `&` -> `&amp;`, `<` -> `&lt;`, `>` -> `&gt;`, `"` -> `&quot;`, `'` -> `&#039;`
 escape_special: String -> String;
 escape_special = |str| (
     str.replace_all("&", "&amp;")
@@ -24,7 +24,7 @@ escape_special = |str| (
 );
 
 // Unescapes XML special characters.
-// eg. `&amp;` -> `&`, `&lt;` -> `<`, `&gt;` -> `>`, `&quot;` -> `\"`, `&#039;` -> `'`.
+// eg. `&amp;` -> `&`, `&lt;` -> `<`, `&gt;` -> `>`, `&quot;` -> `"`, `&#039;` -> `'`.
 // NOTE: Other character references is also converted.
 unescape_special: String -> String;
 unescape_special = |str| (

@@ -4,6 +4,7 @@
   minilib-text@0.11.0, minilib-binary@0.8.0.
 - Minilib.Encoding.Xml.XmlParser: Changed `_DoubleQuote` to `__DoubleQuote` etc.
 - Reorganized imports using `fix edit explicit-import`.
+- Minilib.Encoding.Xml.XmlHelpers: Fixed documentation of `escape_special` and `unescape_special`.
 
 ## 0.7.1
 ### Changed
