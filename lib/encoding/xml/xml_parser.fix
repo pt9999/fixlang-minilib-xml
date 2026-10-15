@@ -14,11 +14,11 @@ import Minilib.Encoding.Xml;
 import Minilib.Text.SimpleParser;
 import Minilib.Text.StringEx;
 
-_DoubleQuote: U8;
-_DoubleQuote = 0x22_U8;        // '\"'
+__DoubleQuote: U8;
+__DoubleQuote = 0x22_U8;        // '\"'
 
-_SingleQuote: U8;
-_SingleQuote = 0x27_U8;        // '\''
+__SingleQuote: U8;
+__SingleQuote = 0x27_U8;        // '\''
 
 // 2.1 Well-Formed XML Documents
 
@@ -112,7 +112,7 @@ _parse_name = do {
 _parse_att_value: Parser String;
 _parse_att_value = do {
     let start_quote = *match_char_class(|c|
-        c == _DoubleQuote || c == _SingleQuote
+        c == __DoubleQuote || c == __SingleQuote
     ).or_error("Missing start quote");
 
     let start_stream = *get_stream;
@@ -150,13 +150,13 @@ _parse_char_data = do {
 };
 
 // Checks whether it does not match `str` at current position.
-// Raises `_NotMatch` if it matches.
+// Raises `e_NotMatch` if it matches.
 _negative_lookahead: String -> Parser ();
 _negative_lookahead = |str| (
     let str_matcher = match_str(str);
     parser $ |s| (
         if str_matcher.run_parser(s).is_ok {
-            err $ _NotMatch
+            err $ e_NotMatch
         };
         ok $ ((), s)
     )
@@ -281,7 +281,7 @@ _parse_version_info = do {
     one_or_more(_whitespace);;
     match_str("version");;
     _parse_eq;;
-    let quote = *match_char_class(|c| c == _SingleQuote || c == _DoubleQuote);
+    let quote = *match_char_class(|c| c == __SingleQuote || c == __DoubleQuote);
     let version_num = *match_str_class(|c| is_digit(c) || c == '.');
     match_char(quote);;
     pure $ version_num
@@ -315,7 +315,7 @@ _parse_sd_decl = do {
     one_or_more(_whitespace);;
     match_str("standalone");;
     _parse_eq;;
-    let quote = *match_char_class(|c| c == _SingleQuote || c == _DoubleQuote);
+    let quote = *match_char_class(|c| c == __SingleQuote || c == __DoubleQuote);
     let match_str_unforget = |str| match_str(str).map(|_| str);
     let yesno = *match_str_unforget("yes").or_else(match_str_unforget("no"));
     match_char(quote);;
@@ -469,7 +469,7 @@ _parse_encoding_decl = do {
     one_or_more(_whitespace);;
     match_str("encoding");;
     _parse_eq;;
-    let quote = *match_char_class(|c| c == _SingleQuote || c == _DoubleQuote);
+    let quote = *match_char_class(|c| c == __SingleQuote || c == __DoubleQuote);
     let enc_name = *_parse_enc_name;
     match_char(quote);;
     pure $ enc_name
