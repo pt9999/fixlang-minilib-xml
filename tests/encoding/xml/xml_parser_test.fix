@@ -1,10 +1,28 @@
 module XmlParserTest;
 
-import Minilib.Encoding.Xml;
-import Minilib.Encoding.Xml.XmlParser;
-import Minilib.Testing.UnitTest;
-import Minilib.Text.SimpleParser;
-import Minilib.Text.StringEx;
+import Minilib.Encoding.Xml::{
+    XmlDeclaration, XmlAttribute::make, XmlCDATASection::make, XmlComment::{@content, make}, 
+    XmlDeclaration::{set_encoding, set_standalone}, 
+    XmlDocument::{add_to_epilog, add_to_prolog, empty, set_document_element, set_xml_decl}, 
+    XmlElement::{add, add_node, attr, make, text}, 
+    XmlNode::{as_comment_node, cdata_section, comment_node, is_comment_node, processing_instruction, text_node}, 
+    XmlProcessingInstruction::make, XmlText::make
+};
+import Minilib.Encoding.Xml.XmlParser::{
+    _parse_att_value, _parse_attribute, _parse_cdsect, _parse_char_data, _parse_char_ref, _parse_comment, 
+    _parse_content, _parse_document, _parse_element, _parse_empty_elem_tag_or_stag, _parse_enc_name, 
+    _parse_encoding_decl, _parse_entity_ref, _parse_eq, _parse_etag, _parse_misc, _parse_name, _parse_pi, 
+    _parse_prolog, _parse_reference, _parse_reference_as_text_node, _parse_s, _parse_s_as_text_node, 
+    _parse_sd_decl, _parse_version_info, _parse_xml_declaration, parse_document_from_string, 
+    parse_element_from_string
+};
+import Minilib.Testing.UnitTest::{assert_equal, make_table_test, run_test_driver, TestCase, TestCase::empty};
+import Minilib.Text.SimpleParser::{Parser, Parser::{match_end_of_stream, run_parser_str}};
+import Minilib.Text.StringEx::split_first;
+import Std::{
+    Array, Eq, ErrMsg, IO, Result, String, ToString, Functor::map, Monad::{flatten, pure}, 
+    Option::{none, some}, Result::{as_err, err, is_ok, ok}, Tuple2::@0
+};
 
 // trim err string like "Line 0, Column 13: XXXX"
 trim_err: Result ErrMsg a -> Result ErrMsg a;

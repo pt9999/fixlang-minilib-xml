@@ -1,11 +1,16 @@
 // XML helpers, such as escaping/unescaping special characters.
 module Minilib.Encoding.Xml.XmlHelpers;
 
-import Character;
-
-import Minilib.Text.StringEx;
-import Minilib.Text.Unicode;
-import Minilib.Text.Hex;
+import Character::{is_digit, is_xdigit};
+import Minilib.Text.Hex::FromStringHex::from_string_hex;
+import Minilib.Text.StringEx::{from_array, replace_all};
+import Minilib.Text.Unicode::encode_code_point_to_utf8;
+import Std::{
+    loop, Array, ErrMsg, I64, Option, Result, String, U32, U8, 
+    Array::{@, @size, empty, get_sub, pop_back, push_back}, FromString::from_string, 
+    LoopState::{break, continue}, Option::{as_some, is_some, none, some}, Result::{as_ok, is_err}, 
+    String::{get_bytes, get_sub}
+};
 
 // Escapes XML special characters.
 // eg. `&` -> `&amp;`, `<` -> `&lt;`, `>` -> `&gt;`, `\"` -> `&quot;`, `'` -> `&#039;`

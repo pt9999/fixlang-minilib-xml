@@ -1,10 +1,10 @@
 module Test;
 
-import Minilib.Testing.UnitTest;
-
-import XmlHelpersTest;
-import XmlParserTest;
-import XmlTest;
+import Minilib.Testing.UnitTest::{TestSuite, TestSuite::run};
+import Std::IO;
+import XmlHelpersTest::main;
+import XmlParserTest::main;
+import XmlTest::main;
 
 testsuite: TestSuite;
 testsuite = [

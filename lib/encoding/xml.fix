@@ -9,12 +9,15 @@
 // This module does not support XML namespace (xmlns).
 module Minilib.Encoding.Xml;
 
-import Character;
-
-import Minilib.Common.Assert;
-import Minilib.Encoding.Xml.XmlHelpers;
-import Minilib.Text.StringEx;
-import Minilib.Text.Unicode;
+import Minilib.Common.Assert::assert_lazy;
+import Minilib.Encoding.Xml.XmlHelpers::{escape_special, unescape_special};
+import Std::{
+    undefined, Add, Array, Eq, Option, String, ToString, 
+    Array::{empty, find_by, get_last, is_empty, pop_back, push_back, set, sort_by, to_iter}, 
+    Functor::map, Iterator::{filter, fold, get_first, map, to_array}, 
+    Option::{as_some, is_none, is_some, map_or, none, some}, String::{concat_iter, find}, 
+    ToString::to_string
+};
 
 //=======================================================================
 // XmlDocument

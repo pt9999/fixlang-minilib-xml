@@ -8,11 +8,30 @@
 // - Currently Document Type Definition (DTD) is not supported.
 module Minilib.Encoding.Xml.XmlParser;
 
-import Character;
-
-import Minilib.Encoding.Xml;
-import Minilib.Text.SimpleParser;
-import Minilib.Text.StringEx;
+import Character::{is_alnum, is_alpha, is_digit, is_xdigit};
+import Minilib.Encoding.Xml::{
+    unescape_special, XmlAttribute, XmlDeclaration, XmlDocument, XmlElement, XmlNode, XmlAttribute::make, 
+    XmlCDATASection::make, XmlComment::make, 
+    XmlDocument::{add_to_epilog, add_to_prolog, empty, set_document_element, set_xml_decl}, 
+    XmlElement::{@tag_name, append_child, concat_text_nodes, make, set_attributes, text}, 
+    XmlNode::{cdata_section, comment_node, element_node, processing_instruction, text_node}, 
+    XmlProcessingInstruction::make, XmlText::make
+};
+import Minilib.Text.SimpleParser::{
+    e_NotMatch, parser, Char, Parser, 
+    Parser::{
+        error_parser, filter, get_stream, if_exists, match_any_char, match_char, match_char_class, 
+        match_end_of_stream, match_str, match_str_class, not_match, one_or_more, or_else, or_elseF, or_error, 
+        repeat, run_parser, run_parser_str, zero_or_more
+    }, 
+    Stream::read_string_between
+};
+import Minilib.Text.StringEx::{from_array, to_lower};
+import Std::{
+    loop_m, Bool, ErrMsg, Result, String, U8, Array::{append, to_iter}, Functor::map, Iterator::fold, 
+    LoopState::{break_m, continue_m}, Monad::pure, Option::{as_some, is_none, is_some}, 
+    Result::{err, is_ok, ok}, Tuple2::@0
+};
 
 __DoubleQuote: U8;
 __DoubleQuote = 0x22_U8;        // '\"'

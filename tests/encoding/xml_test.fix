@@ -1,9 +1,29 @@
 module XmlTest;
 
-import Minilib.Encoding.Xml;
-import Minilib.Testing.UnitTest;
-import Minilib.Text.StringEx;
-import Minilib.Trait.Traversable;
+import Minilib.Encoding.Xml::{
+    escape_special, unescape_special, XmlNode, XmlAttribute::{@name, @value, make, set_name, set_value}, 
+    XmlCDATASection::{@content, make, set_content}, XmlComment::{@content, make, set_content}, 
+    XmlDeclaration::{@encoding, @standalone, @version, default, set_encoding, set_standalone, set_version}, 
+    XmlDocument::{@document_element, @epilog, @prolog, @xml_decl, add_to_epilog, add_to_prolog, empty, make}, 
+    XmlElement::{
+        @attributes, @children, @tag_name, add, addF, add_node, append_child, attr, concat_text_nodes, 
+        get_attribute, make, remove_attribute, set_attribute, set_attributes, text
+    }, 
+    XmlNode::{
+        attribute_node, cdata_section, comment_node, document_node, element_node, processing_instruction, 
+        text_node
+    }, 
+    XmlProcessingInstruction::{@content, make, set_content}, XmlText::{@content, make, set_content}
+};
+import Minilib.Testing.UnitTest::{
+    assert_equal, assert_not_equal, make_table_test, make_test, run_test_driver, TestCase, 
+    TestCase::empty
+};
+import Minilib.Trait.Traversable::foreach_m;
+import Std::{
+    IO, String, ToString, Array::{@, @size}, IO::IOFail, Iterator::range, Monad::pure, 
+    Option::{none, some}, ToString::to_string
+};
 
 //=======================================================================
 // tests for XmlDocument
